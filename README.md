@@ -7,7 +7,7 @@ CRUD with react hooks 17.0.2 and asp.net core 5
 * Note: Add and Edit feature is in progress.
 
 ## backend
-* run app by `dotnet run` from root directory.
+* run app by `dotnet run` from /Sample.API directory.
 * To connect database from mysql server, please change `MySqlConnection` in `/appSetting.json` and `/appsettings.Development.json`
 
 ## docs folder (MYSQL Script)
