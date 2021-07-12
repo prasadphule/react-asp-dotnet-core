@@ -14,6 +14,8 @@ export default function ObjectTypeForm() {
 
     const { id } = useParams();
     let history = useHistory();
+
+    //TODO: Validation using yup is pending
     const { handleSubmit, register, setValue } = useForm({ initialValue });
 
     const getObjectTypeById = async () => {
