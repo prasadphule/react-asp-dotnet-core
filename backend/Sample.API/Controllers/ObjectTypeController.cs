@@ -97,14 +97,14 @@ namespace Sample.API.Controllers
         }
 
         [HttpDelete(id)]
-        public IActionResult Delete(int? objectTypeId)
+        public IActionResult Delete(int? id)
         {
-            if (objectTypeId == null || objectTypeId <= 0)
+            if (id == null || id <= 0)
                 return BadRequest();
 
             try
             {
-                bool result = _objectTypeRepository.Delete(objectTypeId);
+                bool result = _objectTypeRepository.Delete(id);
                 if (result)
                     return NotFound();
 
