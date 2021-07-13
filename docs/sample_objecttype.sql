@@ -28,18 +28,8 @@ CREATE TABLE `objecttype` (
   `description` varchar(300) DEFAULT NULL,
   `level` int NOT NULL,
   PRIMARY KEY (`objectTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `objecttype`
---
-
-LOCK TABLES `objecttype` WRITE;
-/*!40000 ALTER TABLE `objecttype` DISABLE KEYS */;
-INSERT INTO `objecttype` VALUES (1,'name1','desc1',1),(2,'name2','desc2',1),(3,'name3','desc3',1);
-/*!40000 ALTER TABLE `objecttype` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -50,4 +40,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-12 16:52:23
+-- Dump completed on 2021-07-13 17:18:30

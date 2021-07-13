@@ -37,11 +37,11 @@ BEGIN
 INSERT INTO ObjectType (ObjectTypeName, Description, Level)
     VALUES (ObjectTypeName, Description, Level);
 
-SET @ObjectTypeNameID = LAST_INSERT_ID();
+SET @ObjectTypeId = LAST_INSERT_ID();
 
-SELECT ObjectTypeName, Description, Level
+SELECT ObjectTypeId, ObjectTypeName, Description, Level
 FROM ObjectType 
-WHERE ObjectTypeNameID = @ObjectTypeNameID;
+WHERE ObjectTypeId = @ObjectTypeId;
 
 END ;;
 DELIMITER ;
@@ -62,8 +62,8 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sample_ObjectTypeDelete`(in ObjectTypeId int)
 BEGIN
 	DELETE
-	FROM   ObjectType
-	WHERE  ObjectTypeId = ObjectTypeId;
+	FROM   ObjectType as ot
+	WHERE  ot.ObjectTypeId = ObjectTypeId;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -80,11 +80,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sample_ObjectTypeRead`(in ObjectTypeId int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sample_ObjectTypeRead`(
+in ObjectTypeId int
+)
 BEGIN
-	SELECT  ObjectTypeName, Description, Level
-	FROM ObjectType
-    WHERE  (ObjectTypeID = ObjectTypeID);
+	SELECT ot.ObjectTypeId, ot.ObjectTypeName, ot.Description, ot.Level
+	FROM ObjectType as ot
+    WHERE (ot.ObjectTypeId = ObjectTypeId);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -122,21 +124,21 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sample_ObjectTypeUpdate`(
-in ObjectTypeID int,
+in ObjectTypeId int,
 in ObjectTypeName varchar(10), 
 in Description varchar(300), 
 in Level int)
 BEGIN
 
-Update ObjectType 
-set ObjectTypeName = ObjectTypeName,
-	Description = Description, 
-    Level = Level
-where ObjectTypeID = ObjectTypeID;
+Update ObjectType as ot
+set ot.ObjectTypeName = ObjectTypeName,
+	ot.Description = Description, 
+    ot.Level = Level
+where ot.ObjectTypeId = ObjectTypeId;
 
-SELECT  ObjectTypeName, Description, Level
-FROM ObjectType 
-WHERE  ObjectTypeNameID = @ObjectTypeNameID;
+SELECT  ot.ObjectTypeId, ot.ObjectTypeName, ot.Description, ot.Level
+FROM ObjectType as ot
+WHERE  ot.ObjectTypeId = ObjectTypeId;
 
 END ;;
 DELIMITER ;
@@ -154,4 +156,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-12 16:52:23
+-- Dump completed on 2021-07-13 17:18:30
