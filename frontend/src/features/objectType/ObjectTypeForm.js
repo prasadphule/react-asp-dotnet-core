@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 //yup validation
 const schema = object().shape({
     objectTypeName: string().required("Name is required"),
-    description: string().required(),
-    level: number().positive().integer().required("Please select level"),
+    description: string().required("description is required"),
+    level: number().positive("Please select level").integer().required(),
 });
 
 export default function ObjectTypeForm() {
@@ -22,7 +22,7 @@ export default function ObjectTypeForm() {
     const objectType = useSelector(selectObjectType)
 
     //react hooks form
-    const { handleSubmit, register, setValue } = useForm({
+    const { handleSubmit, register, setValue, formState: { errors } } = useForm({
         defaultValues: initialStateObjectType,
         resolver: yupResolver(schema)
     });
@@ -59,27 +59,33 @@ export default function ObjectTypeForm() {
                             <label for="name" class="form-label">Name</label>
                             <input
                                 {...register("objectTypeName")}
-                                class="form-control"
+                                className={`form-control ${errors.objectTypeName ? 'is-invalid' : ''}`}
                             />
+                            <div className="invalid-feedback">{errors.objectTypeName?.message}</div>
                         </div>
                         <div class="mb-3">
                             <label for="desc" class="form-label">Description</label>
                             <textarea
                                 {...register("description")}
-                                class="form-control"
+                                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                                 rows="3"></textarea>
+                            <div className="invalid-feedback">{errors.description?.message}</div>
                         </div>
-                        <select
-                            {...register("level")}
-                            class="form-select mb-3"
-                            aria-label="Default select example">
-                            <option selected>Levels</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                        <div class="mb-3">
+                            <select
+                                {...register("level")}
+                                className={`form-select ${errors.level ? 'is-invalid' : ''}`}
+                                aria-label="Default select example">
+                                <option selected value="0">Levels</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <div className="invalid-feedback">{errors.level?.message}</div>
+                        </div>
+
                         <div className="float-end">
                             <Link to="/" type="button" class="btn btn-light me-3">Cancel</Link>
                             {id && <button type="button" class="btn btn-danger me-3" onClick={handleDelete}>Delete</button>}
