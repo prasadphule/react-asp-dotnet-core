@@ -1,9 +1,10 @@
-import Header from './layout/Header'
-import Footer from './layout/Footer'
-import NotFound from './layout/NotFound'
-import ObjectTypeList from './objectType/ObjectTypeList'
-import ObjectTypeForm from './objectType/ObjectTypeForm'
+import Header from 'layout/Header'
+import Footer from 'layout/Footer'
+import NotFound from 'layout/NotFound'
+import ObjectTypeList from 'features/objectType/ObjectTypeList'
+import ObjectTypeForm from 'features/objectType/ObjectTypeForm'
 import { Switch, Route } from 'react-router-dom'
+import Spinner from 'layout/Spinner'
 
 function App() {
   return (
@@ -14,10 +15,7 @@ function App() {
           <Route exact path="/">
             <ObjectTypeList />
           </Route>
-          <Route path="/add">
-            <ObjectTypeForm />
-          </Route>
-          <Route path="/edit/:id">
+          <Route exact path={["/add", "/edit/:id"]}>
             <ObjectTypeForm />
           </Route>
           <Route exact path="*">
@@ -25,6 +23,7 @@ function App() {
           </Route>
         </Switch>
       </main>
+      <Spinner />
       <Footer />
     </div>
   );

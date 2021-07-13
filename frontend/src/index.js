@@ -1,26 +1,24 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import axios from 'axios'
-
-//set api base url //better to put it in .env file for sample I am using as hardcoded
-const requestHandler = (request) => {
-  request.baseURL = "https://localhost:5001/v1/";
-  request.headers.post["Content-Type"] = "application/json";
-  return request;
-};
-
-axios.interceptors.request.use((request) => requestHandler(request));
+import App from 'App'
+import store from 'app/store'
+import reportWebVitals from 'reportWebVitals'
+import AxiosInterceptor from 'layout/AxiosInterceptor'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>,
+    <Provider store={store}>
+      <AxiosInterceptor>
+        <Router>
+          <App />
+        </Router>
+      </AxiosInterceptor>
+    </Provider>
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 

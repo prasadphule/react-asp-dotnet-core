@@ -1,20 +1,18 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
-import ObjectTypeItem from "./ObjectTypeItem"
+import ObjectTypeItem from "features/objectType/ObjectTypeItem"
+import { useDispatch, useSelector } from "react-redux";
+import { selectObjectTypeList } from "./objectTypeSlice";
+import { getObjectTypeAll } from "./objectTypeThunk";
 
 export default function ObjectTypeList() {
 
-    const [objectTypes, setObjectTypes] = useState([]);
+    const objectTypeList = useSelector(selectObjectTypeList);
+    const dispatch = useDispatch();
 
-    const getObjectType = async () => {
-        const response = await axios.get("ObjectType");
-        if (response.status === 200) {
-            setObjectTypes(response.data);
-        }
-    }
-
-    useEffect(() => getObjectType(), [])
+    useEffect(() => {
+        dispatch(getObjectTypeAll())
+    }, [])
 
     return (
         <>
@@ -32,7 +30,7 @@ export default function ObjectTypeList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {objectTypes.map((item, index) => <ObjectTypeItem key={index} item={item} />)}
+                    {objectTypeList.map((item, index) => <ObjectTypeItem key={index} item={item} />)}
                 </tbody>
             </table>
         </>

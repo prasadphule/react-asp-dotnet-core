@@ -1,46 +1,52 @@
 import { useEffect } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
-import axios from 'axios'
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import { string, number, object } from "yup"
+import { initialStateObjectType, selectObjectType, setObjectType } from 'features/objectType/objectTypeSlice'
+import { getObjectTypeById, saveObjectType, deleteObjectTypeById } from 'features/objectType/objectTypeThunk'
+import { useDispatch, useSelector } from 'react-redux'
 
-const initialValue = {
-    objectTypeId: 0,
-    objectTypeName: "",
-    description: "",
-    level: 0
-}
+//yup validation
+const schema = object().shape({
+    objectTypeName: string().required("Name is required"),
+    description: string().required(),
+    level: number().positive().integer().required("Please select level"),
+});
 
 export default function ObjectTypeForm() {
 
     const { id } = useParams();
     let history = useHistory();
+    const dispatch = useDispatch();
+    const objectType = useSelector(selectObjectType)
 
-    //TODO: Validation using yup is pending
-    const { handleSubmit, register, setValue } = useForm({ initialValue });
-
-    const getObjectTypeById = async () => {
-        const response = await axios.get(`ObjectType/${id}`);
-        if (response.status === 200) {
-            Object.keys(initialValue).map(key => setValue(key, response.data[key]));
-        }
-    }
+    //react hooks form
+    const { handleSubmit, register, setValue } = useForm({
+        defaultValues: initialStateObjectType,
+        resolver: yupResolver(schema)
+    });
 
     useEffect(() => {
         if (id) {
-            getObjectTypeById();
+            dispatch(getObjectTypeById(id))
+        }
+        return () => {
+            dispatch(setObjectType(initialStateObjectType))
         }
     }, [id])
 
-    const save = async (data) => {
-        const response = await axios.post("objectType", data);
-        history.push("/")
-    }
-    const update = async (data) => {
-        const response = await axios.put("objectType", data);
-        history.push("/")
-    }
+    useEffect(() => Object.keys(initialStateObjectType).map(key => setValue(key, objectType[key])), [objectType])
 
-    const onSubmit = (data) => id ? update(data) : save(data);
+    const onSubmit = async (data) => {
+        await dispatch(saveObjectType(data))
+        history.push("/")
+    };
+
+    const handleDelete = async () => {
+        await dispatch(deleteObjectTypeById(id))
+        history.push("/")
+    }
 
     return (
         <div className="container">
@@ -49,6 +55,7 @@ export default function ObjectTypeForm() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <h2 className="mb-3"> {`${id ? `Edit` : `Add`} ObjectType`}</h2>
                         <div class="mb-3">
+                            {/* we can create reusable component i.e. TextBox etc. for another form */}
                             <label for="name" class="form-label">Name</label>
                             <input
                                 {...register("objectTypeName")}
@@ -75,7 +82,7 @@ export default function ObjectTypeForm() {
                         </select>
                         <div className="float-end">
                             <Link to="/" type="button" class="btn btn-light me-3">Cancel</Link>
-                            {id && <button type="button" class="btn btn-danger me-3">Delete</button>}
+                            {id && <button type="button" class="btn btn-danger me-3" onClick={handleDelete}>Delete</button>}
                             <button type="submit" class="btn btn-primary">{id ? 'Update' : 'Save'}</button>
                         </div>
                     </form>
