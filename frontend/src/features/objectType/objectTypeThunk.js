@@ -62,8 +62,7 @@ export const deleteObjectTypeById = (id) => async (dispatch) => {
     try {
         const response = await axios.delete(`ObjectType/${id}`)
         if (response.status === 200) {
-            alert("deleted successfully.")
-        }
+            }
         else {
             console.log("server side error.")
         }

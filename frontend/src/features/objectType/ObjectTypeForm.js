@@ -53,7 +53,7 @@ export default function ObjectTypeForm() {
             <div className="row">
                 <div className="col-md-6">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <h2 className="mb-3"> {`${id ? `Edit` : `Add`} ObjectType`}</h2>
+                        <h2 class="text-muted mb-3"> {`${id ? `Edit` : `Add`} ObjectType`}</h2>
                         <div class="mb-3">
                             {/* we can create reusable component i.e. TextBox etc. for another form */}
                             <label for="name" class="form-label">Name</label>

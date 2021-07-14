@@ -18,8 +18,8 @@ export default function ObjectTypeList() {
         <div className="container">
             <div className="row">
                 <div className="col-md-12 d-flex flex-row justify-content-between">
-                    <h3>All ObjectTypes</h3>
-                    <Link to="/add" type="button" class="btn btn-primary mb-3"> Add </Link>
+                    <h3 class="text-muted">All ObjectTypes</h3>
+                    <Link to="/add" type="button" class="btn btn-primary mb-3"><i class="bi bi-plus-lg"></i> Add </Link>
                 </div>
                 <div className="col-md-12">
                     {objectTypeList.length ?
